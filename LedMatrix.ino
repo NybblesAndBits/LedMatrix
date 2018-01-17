@@ -1,4 +1,6 @@
 #include "FastLED.h"
+#include "Indexers.h"
+#include "Canvas.h"
 
 //============================================================================
 // GPIO Constants
@@ -17,6 +19,7 @@ const uint8_t BRIGHTNESS_MIN = 0;
 // Global Variables
 CRGB leds[LED_COUNT];
 uint8_t brightness = 15;
+Canvas canvas(leds);
 
 //============================================================================
 void initGpio() {
@@ -37,6 +40,11 @@ void initLeds() {
 void setup() {
   initGpio();
   initLeds();
+
+  canvas.lineColor = CRGB::Red;
+  canvas.fillColor = CRGB::Blue;
+  //canvas.circle(7, 7, 8);
+  FastLED.show();
 }
 
 uint32_t lastHueTick = 0;
@@ -44,7 +52,7 @@ uint8_t hueOffset = 0;
 
 void loop() {
 
-  uint32_t now = millis();
+  //uint32_t now = millis();
 
   /*
   if (now - lastHueTick > 10) {
@@ -67,7 +75,7 @@ void loop() {
   }
   */
 
-  ///*
+  /*
   if(now - lastHueTick > 10) {
     lastHueTick = now;
     for(int i=0; i<8; i++) {
@@ -75,9 +83,11 @@ void loop() {
     }
     hueOffset++;
   }
-  //*/
+  */
 
-  FastLED.show();
+
+
+  //FastLED.show();
 }
 
 //===============================================================
@@ -86,7 +96,7 @@ void setDiag(uint8_t d, const CRGB &color) {
     uint8_t x = 0;
     uint8_t y = d;
     while (true) {
-      set(x, y, color);
+      leds[xy(x, y)] = color;
       if (x == d) return;
       x++;
       y--;
@@ -95,7 +105,7 @@ void setDiag(uint8_t d, const CRGB &color) {
     uint8_t x = (d&0xF) + 1;
     uint8_t y = 15;
     while (true) {
-      set(x, y, color);
+      leds[xy(x, y)] = color;
       if (x == 15) return;
       x++;
       y--;
@@ -106,15 +116,15 @@ void setDiag(uint8_t d, const CRGB &color) {
 //===
 void setRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const CRGB &color) {
   for (uint8_t i = 0; i < w; i++) {
-    set(x + i, y, color);
+    leds[xy(x+i, y)] = color;
   }
   for (uint8_t i = 0; i < h; i++) {
-    set(x + w - 1, y + i, color);
+    leds[xy(x+w-1, y+i)] = color;
   }
   for (uint8_t i = 0; i < w; i++) {
-    set(x + i, y + h - 1, color);
+    leds[xy(x+i, y+h-1)] = color;
   }
   for (uint8_t i = 0; i < h; i++) {
-    set(x, y + i, color);
+    leds[xy(x, y+i)] = color;
   }
 }

@@ -1,6 +1,8 @@
 #ifndef INDEXERS_H
 #define INDEXERS_H
 
+#include <stdint.h>
+
 //############################################################################
 // All functions in this file assume a serpintine LED matrix. See the diagram
 // below for a visual representation of the LED layout.
