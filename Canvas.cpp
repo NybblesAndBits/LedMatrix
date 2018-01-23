@@ -29,37 +29,3 @@ void Canvas::square(uint8_t x, uint8_t y, uint8_t l) {
 void Canvas::squareFill(uint8_t x, uint8_t y, uint8_t l) {
   rectFill(x, y, l, l);
 }
-
-void Canvas::circle(int x0, int y0, int r)
-{
-    int x = r-1;
-    int y = 0;
-    int dx = 1;
-    int dy = 1;
-    int err = dx - (r << 1);
-
-    while (x >= y)
-    {
-        leds[xy(x0 + x, y0 + y)] = lineColor;
-        leds[xy(x0 + y, y0 + x)] = lineColor;
-        leds[xy(x0 - y, y0 + x)] = lineColor;
-        leds[xy(x0 - x, y0 + y)] = lineColor;
-        leds[xy(x0 - x, y0 - y)] = lineColor;
-        leds[xy(x0 - y, y0 - x)] = lineColor;
-        leds[xy(x0 + y, y0 - x)] = lineColor;
-        leds[xy(x0 + x, y0 - y)] = lineColor;
-
-        if (err <= 0)
-        {
-            y++;
-            err += dy;
-            dy += 2;
-        }
-        if (err > 0)
-        {
-            x--;
-            dx += 2;
-            err += dx - (r << 1);
-        }
-    }
-}

@@ -21,8 +21,6 @@ public:
 
   void squareFill(uint8_t x, uint8_t y, uint8_t l);
 
-  void circle(int x, int y, int r);
-
 };
 
 #endif //CANVAS_H
